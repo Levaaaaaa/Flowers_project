@@ -11,7 +11,9 @@ namespace Flowers_project
         public Camomile(string name, int length, int freshness, double cost, string color, int countOfPetal) : base(name, length, freshness, cost, color)
         {
             this.countOfPetal = countOfPetal;
-            this.strForFile += "~" + countOfPetal.ToString();
+            type = "camomile";
+            //_ = strForFile.Insert(0, type);
+            //this.strForFile += "~" + countOfPetal.ToString();
         }
 
         private readonly int countOfPetal;
@@ -22,10 +24,15 @@ namespace Flowers_project
             return base.toStringForConsole() + "\nCount of petal: " + countOfPetal.ToString() + "\n";
         }
 
+        public override string toStringForFile()
+        {
+            return type + "~" + base.toStringForFile() + "~" + countOfPetal.ToString();
+        }
+
         public override void Write(string path)
         {
             StreamWriter writer = new StreamWriter(path);
-            writer.WriteLine(strForFile);
+            writer.WriteLine(this.toStringForFile());
             writer.Close();
         }
     }

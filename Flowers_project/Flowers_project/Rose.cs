@@ -12,7 +12,9 @@ namespace Flowers_project
         public Rose(string name, int length, int freshness, double cost, string color, int lengthOfPrickles) : base(name, length, freshness, cost, color)
         {
             this.lengthOfPrickles = lengthOfPrickles;
-            this.strForFile += "~" + lengthOfPrickles.ToString();
+            type = "rose";
+            //_ = strForFile.Insert(0, type);
+            //this.strForFile += "~" + lengthOfPrickles.ToString();
         }
 
         public int getLengthOfPrickles() { return lengthOfPrickles; }
@@ -20,10 +22,14 @@ namespace Flowers_project
         {
             return base.toStringForConsole() + "\nLength of Prickles (mm): " + lengthOfPrickles.ToString() + "\n";
         }
+        public override string toStringForFile()
+        {
+            return type + "~" + base.toStringForFile() + "~" + lengthOfPrickles.ToString();
+        }
         public override void Write(string path)
         {
             StreamWriter writer = new StreamWriter(path);
-            writer.WriteLine(strForFile);
+            writer.WriteLine(this.toStringForFile());
             writer.Close();
         }
     }

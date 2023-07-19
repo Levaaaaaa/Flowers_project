@@ -15,6 +15,7 @@ namespace Flowers_project
         private readonly double cost;
         private readonly string color;
         protected string strForFile;
+        protected string type;
 
         public BaseFlower(string name, int length, int freshness, double cost, string color) 
         {
@@ -23,6 +24,7 @@ namespace Flowers_project
             this.freshness = freshness;
             this.cost = cost;
             this.color = color;
+            this.type = "baseType";
             strForFile = name + "~" + length.ToString() + "~" + freshness.ToString() + "~" + cost.ToString() + "~" + color;
         }
 
@@ -34,7 +36,11 @@ namespace Flowers_project
         public string getStrForFile() { return strForFile; }
         public virtual string toStringForConsole()
         {
-            return "Name: " + name + "\nLength (cm): " + length.ToString() + "\nFreshness (1-10): " + freshness + "\nCost(BY): " + cost.ToString() + "\nColor: " + color;
+            return "Type: " + type + "\nName: " + name + "\nLength (cm): " + length.ToString() + "\nFreshness: " + freshness + "/10\nCost(BY): " + cost.ToString() + "\nColor: " + color;
+        }
+        public virtual string toStringForFile()
+        {
+            return name + "~" + length.ToString() + "~" + freshness.ToString() + "~" + cost.ToString() + "~" + color;
         }
         public abstract void Write(string path);
     }

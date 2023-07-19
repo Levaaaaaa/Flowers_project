@@ -11,7 +11,9 @@ namespace Flowers_project
         public Tulip(string name, int length, int freshness, double cost, string color, string formOfTurnip) : base(name, length, freshness, cost, color)
         {
             this.formOfTurnip = formOfTurnip;
-            this.strForFile += "~" + formOfTurnip;
+            type = "tulip";
+            //_ = strForFile.Insert(0, type);
+            //this.strForFile += "~" + formOfTurnip;
         }
 
         private readonly string formOfTurnip;
@@ -22,10 +24,14 @@ namespace Flowers_project
             return base.toStringForConsole() + "\nForm of turnip: " + formOfTurnip + "\n";
         }
 
+        public override string toStringForFile()
+        {
+            return type + "~" + base.toStringForFile() + "~" + formOfTurnip;
+        }
         public override void Write(string path)
         {
             StreamWriter writer = new StreamWriter(path);
-            writer.WriteLine(strForFile);
+            writer.WriteLine(this.toStringForFile());
             writer.Close();
         }
     }
