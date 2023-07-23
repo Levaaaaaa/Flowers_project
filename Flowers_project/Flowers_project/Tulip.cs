@@ -8,6 +8,7 @@ namespace Flowers_project
 {
     internal class Tulip : BaseFlower
     {
+        private readonly string formOfTurnip;
         public Tulip(string name, int length, int freshness, double cost, string color, string formOfTurnip) : base(name, length, freshness, cost, color)
         {
             this.formOfTurnip = formOfTurnip;
@@ -16,12 +17,16 @@ namespace Flowers_project
             //this.strForFile += "~" + formOfTurnip;
         }
 
-        private readonly string formOfTurnip;
+        public Tulip(string[] str) : base(str)
+        {
+            type = str[0];
+            formOfTurnip = str[6];
+        }
         public string getFormOfTurnip() { return formOfTurnip; }
 
         public override string toStringForConsole()
         {
-            return base.toStringForConsole() + "\nForm of turnip: " + formOfTurnip + "\n";
+            return "Type: " + type + base.toStringForConsole() + "\nForm of turnip: " + formOfTurnip + "\n";
         }
 
         public override string toStringForFile()

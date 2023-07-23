@@ -8,6 +8,7 @@ namespace Flowers_project
 {
     internal class Camomile : BaseFlower
     {
+        private readonly int countOfPetal;
         public Camomile(string name, int length, int freshness, double cost, string color, int countOfPetal) : base(name, length, freshness, cost, color)
         {
             this.countOfPetal = countOfPetal;
@@ -16,12 +17,16 @@ namespace Flowers_project
             //this.strForFile += "~" + countOfPetal.ToString();
         }
 
-        private readonly int countOfPetal;
+        public Camomile(string[] str) : base(str)
+        {
+            type = str[0];
+            countOfPetal = Convert.ToInt32(str[6]);
+        }
         public int getCountOfPetal() { return countOfPetal; }
 
         public override string toStringForConsole()
         {
-            return base.toStringForConsole() + "\nCount of petal: " + countOfPetal.ToString() + "\n";
+            return "Type: " + type + base.toStringForConsole() + "\nCount of petal: " + countOfPetal.ToString() + "\n";
         }
 
         public override string toStringForFile()

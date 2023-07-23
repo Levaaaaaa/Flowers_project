@@ -14,8 +14,12 @@ namespace Flowers_project
         private readonly int freshness;
         private readonly double cost;
         private readonly string color;
-        protected string strForFile;
-        protected string type;
+        //protected string strForFile;
+        protected string type = "baseType";
+        /*private const string rose = "rose";
+        private const string tulip = "tulip";
+        private const string camomile = "camomile";*/
+        private static string[] types = { "rose", "tulip", "camomile" };
 
         public BaseFlower(string name, int length, int freshness, double cost, string color) 
         {
@@ -24,8 +28,21 @@ namespace Flowers_project
             this.freshness = freshness;
             this.cost = cost;
             this.color = color;
-            this.type = "baseType";
-            strForFile = name + "~" + length.ToString() + "~" + freshness.ToString() + "~" + cost.ToString() + "~" + color;
+            //strForFile = name + "~" + length.ToString() + "~" + freshness.ToString() + "~" + cost.ToString() + "~" + color;
+        }
+
+        public BaseFlower(string[] arrayOfParameters)
+        {
+            if (arrayOfParameters.Length < 7)
+            {
+                throw new InvalidDataException(nameof(arrayOfParameters));
+            }
+            //this.type = str[0];
+            this.name = arrayOfParameters[1];
+            this.length = Convert.ToInt32(arrayOfParameters[2]);
+            this.freshness = Convert.ToInt32(arrayOfParameters[3]);
+            this.cost = Convert.ToDouble(arrayOfParameters[4]);
+            this.color = arrayOfParameters[5];
         }
 
         public string getName() { return name; }
@@ -33,15 +50,17 @@ namespace Flowers_project
         public int getFreshness() { return freshness; }
         public double getCost() { return cost; }
         public string getColor() { return color; }
-        public string getStrForFile() { return strForFile; }
+        public static string[] getTypes() { return types; }
+        //public string getStrForFile() { return strForFile; }
         public virtual string toStringForConsole()
         {
-            return "Type: " + type + "\nName: " + name + "\nLength (cm): " + length.ToString() + "\nFreshness: " + freshness + "/10\nCost(BY): " + cost.ToString() + "\nColor: " + color;
+            return "\nName: " + name + "\nLength (cm): " + length.ToString() + "\nFreshness: " + freshness + "/10\nCost(BY): " + cost.ToString() + "\nColor: " + color;
         }
         public virtual string toStringForFile()
         {
             return name + "~" + length.ToString() + "~" + freshness.ToString() + "~" + cost.ToString() + "~" + color;
         }
         public abstract void Write(string path);
+//        public abstract Bouquet addToBouquet(Bouquet bouquet);
     }
 }

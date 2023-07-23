@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,7 +11,14 @@ namespace Flowers_project
     {
         public Bouquet(string path)
         {
-            bouquet = Read(path);
+            try
+            {
+                bouquet = Read(path);
+            }
+            catch (InvalidDataException)
+            {
+                Console.WriteLine("\nInvalid data in file!\n");
+            }
         }
         public Bouquet(BaseFlower[] bouquet) 
         {
@@ -46,7 +54,7 @@ namespace Flowers_project
 
         public void Write(string path)
         {
-            StreamWriter writer = new StreamWriter(path);
+            StreamWriter writer = new StreamWriter(path, false);
             foreach (BaseFlower flower in bouquet)
             {
                 writer.WriteLine(flower.toStringForFile());
@@ -59,25 +67,20 @@ namespace Flowers_project
             StreamReader reader = new StreamReader(path);
             List<BaseFlower> bouquet = new List<BaseFlower>();
             string[] all = reader.ReadToEnd().Split('\n');
+            reader.Close();
             all = all.SkipLast(1).ToArray();
             string[] line;
             //while (!reader.EndOfStream)
             foreach(string str in all)
             {
                 line = str.Split('~');
-                switch (line[0])
+                try
                 {
-                    case "rose":
-                        bouquet.Add(new Rose(line[1], Convert.ToInt32(line[2]), Convert.ToInt32(line[3]), Convert.ToDouble(line[4]), line[5], Convert.ToInt32(line[6])));
-                        break;
-                    case "tulip":
-                        bouquet.Add(new Tulip(line[1], Convert.ToInt32(line[2]), Convert.ToInt32(line[3]), Convert.ToDouble(line[4]), line[5], line[6]));
-                        break;
-                    case "camomile":
-                        bouquet.Add(new Camomile(line[1], Convert.ToInt32(line[2]), Convert.ToInt32(line[3]), Convert.ToDouble(line[4]), line[5], Convert.ToInt32(line[6])));
-                        break;
-                    default:
-                        throw new InvalidDataException();
+                    bouquet.Add(createFlower(line));
+                }
+                catch (InvalidDataException)
+                {
+                    throw new InvalidDataException();
                 }
             }
 
@@ -121,6 +124,119 @@ namespace Flowers_project
 
             return new Bouquet(array.ToList<BaseFlower>());
             //return array;
+        }
+
+        public void addFlower()
+        {
+            string[] line = new string[7];
+            /*Console.WriteLine("Enter the paramenters in the order type-name-length-freshness-cost-color-specialParameter");
+            for (int i = 0; i < 7;  i++)
+            {
+                line[i] = Console.ReadLine();
+            }*/
+
+            do
+            {
+                line[0] = input("Enter the type: ");
+            } while (!BaseFlower.getTypes().Contains(line[0]));
+            line[1] = input("Enter the name: ");
+            do
+            {
+                line[2] = input("Enter the length (cm): ");
+            } while (!isDigit(line[2]));
+            do
+            {
+                //bool validFreshness = isDigit(line[3]) ? (Convert) : false;
+                line[3] = input("Enter the freshness (1-10): ");
+            } while (!(isDigit(line[3]) && (Convert.ToInt32(line[3]) > 0) && (Convert.ToInt32(line[3]) < 11)));
+
+            do
+            {
+                line[4] = input("Enter the cost (BY): ");
+            } while (!isDouble(line[4]));
+
+            line[5] = input("Enter the color: ");
+            switch (line[0])
+            {
+                case "rose":
+                    do
+                    {
+                        line[6] = input("Enter the length of pickles (mm): ");
+                    } while (!isDigit(line[6]));
+                    break;
+                case "tulip":
+                    line[6] = input("Enter the form of turnip: ");
+                    break;
+                case "camomile":
+                    do
+                    {
+                        line[6] = input("Enter the count of petal: ");
+                    } while (!isDigit(line[6]));
+                    break;
+            }
+            try 
+            {
+                this.bouquet.Add(createFlower(line));
+            }
+            catch (InvalidDataException)
+            {
+                throw new InvalidDataException();
+            }
+        }
+
+        /*private static void InputParameter(string output, ref string str, bool predicate)
+        {
+            do
+            {
+                Console.Write("\n" + output);
+                str = Console.ReadLine();
+            } while (predicate);
+        }*/
+        public static BaseFlower createFlower(string[] line)
+        {
+            switch (line[0])
+            {
+                case "rose":
+                    return new Rose(line);
+                case "tulip":
+                    return new Tulip(line);
+                case "camomile":
+                    return new Camomile(line);
+                default:
+                    throw new InvalidDataException();
+            }
+        }
+
+        private static string input(string output)
+        {
+            Console.Write(output);
+            return Console.ReadLine();
+        }
+
+        private static bool isDigit(string str)
+        {
+            foreach (char c in str)
+            {
+                if ((c > '9') || (c < '0'))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private static bool isDouble(string str)
+        {
+            foreach (char c in str)
+            {
+                if (((c > '9') || (c < '0')) && (c != ','))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
         /*
         public void PrintSortedArray(BaseFlower[] array)
