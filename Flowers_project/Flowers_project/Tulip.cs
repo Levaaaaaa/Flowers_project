@@ -26,18 +26,20 @@ namespace Flowers_project
 
         public override string toStringForConsole()
         {
-            return "Type: " + type + base.toStringForConsole() + "\nForm of turnip: " + formOfTurnip + "\n";
+            return "Type: " + type + base.toStringForConsole() + "\nForm: " + formOfTurnip + "\n";
         }
 
         public override string toStringForFile()
         {
             return type + "~" + base.toStringForFile() + "~" + formOfTurnip;
         }
+        /*
         public override void Write(string path)
         {
             StreamWriter writer = new StreamWriter(path);
             writer.WriteLine(this.toStringForFile());
             writer.Close();
         }
+        */
     }
 }

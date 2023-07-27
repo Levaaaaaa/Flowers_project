@@ -10,10 +10,10 @@ Camomile camomile = new Camomile("beautiful camomile", 5, 10, 0.05, "white", 10)
 Bouquet bouquet = new Bouquet(new BaseFlower[] {rose, tulip, camomile});*/
 //Bouquet bouquet = new Bouquet(new List<BaseFlower>());
 const string space = "\n---------------------------------\n";
-const string menu = "Choose the operation:\n1. Get cost of bouquet\n2. Print bouquet\n3. Find flower by length\n4. Sort by freshness\n5. Add new Flower\n0. Exit";
+const string menu = "Choose the operation:\n1. Get cost of bouquet\n2. Print bouquet\n3. Find flower by length\n4. Sort by freshness\n5. Add new Flower\n6. Remove flower\n0. Save changes and exit";
 const string path = "..\\flowers.txt";
 //bouquet.Write(path);
-Bouquet bouquet = new Bouquet(path);
+Bouquet bouquet = Bouquet.Read(path);
 /*List<BaseFlower> flowers = new List<BaseFlower>( new BaseFlower[] { Bouquet.createFlower(new string[] {"rose", "rose1","40","5","2", "red","3" }),
                                                    Bouquet.createFlower(new string[] {"tulip","tulip1","35","2","1","pink","oval" }),
                                                    Bouquet.createFlower(new string[] { "camomile", "beautiful camomile", "3", "7", "0,04", "white", "8" }),
@@ -63,7 +63,25 @@ while (choose != 0)
             bouquet.sortByFreshness(true).Print();
             break;
         case 5:
-            bouquet.addFlower();
+            bouquet.addFlowerFromConsole();
+            break;
+        case 6:
+            uint ID = new uint();
+            Console.WriteLine("\nEnter the ID of flower, what you want remove ");
+            try
+            {
+                ID = Convert.ToUInt32(Console.ReadLine());
+                while(!bouquet.getAllID().Contains(ID))
+                {
+                    Console.WriteLine("\nUncorrect ID!!!\nEnter the ID of flower, what you want remove ");
+                    ID = Convert.ToUInt32(Console.ReadLine());
+                }
+            } 
+            catch (FormatException OverflowException) 
+            {
+                Console.WriteLine("\nInvalid input!!!\n");
+            }
+            bouquet.Remove(ID);
             break;
         case 0:
             bouquet.Write(path);

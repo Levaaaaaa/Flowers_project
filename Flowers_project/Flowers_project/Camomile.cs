@@ -26,19 +26,20 @@ namespace Flowers_project
 
         public override string toStringForConsole()
         {
-            return "Type: " + type + base.toStringForConsole() + "\nCount of petal: " + countOfPetal.ToString() + "\n";
+            return "Type: " + type + base.toStringForConsole() + "\nPetals: " + countOfPetal.ToString() + "\n";
         }
 
         public override string toStringForFile()
         {
             return type + "~" + base.toStringForFile() + "~" + countOfPetal.ToString();
         }
-
+        /*
         public override void Write(string path)
         {
             StreamWriter writer = new StreamWriter(path);
             writer.WriteLine(this.toStringForFile());
             writer.Close();
         }
+        */
     }
 }

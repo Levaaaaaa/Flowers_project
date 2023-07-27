@@ -9,6 +9,7 @@ namespace Flowers_project
 {
     internal abstract class BaseFlower
     {
+        private uint id;
         private readonly string name;
         private readonly int length;
         private readonly int freshness;
@@ -20,6 +21,7 @@ namespace Flowers_project
         private const string tulip = "tulip";
         private const string camomile = "camomile";*/
         private static string[] types = { "rose", "tulip", "camomile" };
+        private static int countOfParameters = 8;
 
         public BaseFlower(string name, int length, int freshness, double cost, string color) 
         {
@@ -45,22 +47,25 @@ namespace Flowers_project
             this.color = arrayOfParameters[5];
         }
 
+        public uint getID() { return id; }
+        public void setID(uint id_) { this.id = id_; }
         public string getName() { return name; }
         public int getLength() { return length; }
         public int getFreshness() { return freshness; }
         public double getCost() { return cost; }
         public string getColor() { return color; }
         public static string[] getTypes() { return types; }
+        public static int getCountOfParameters() { return countOfParameters; }
         //public string getStrForFile() { return strForFile; }
         public virtual string toStringForConsole()
         {
-            return "\nName: " + name + "\nLength (cm): " + length.ToString() + "\nFreshness: " + freshness + "/10\nCost(BY): " + cost.ToString() + "\nColor: " + color;
+            return "\nID: " + id.ToString() + "\nName: " + name + "\nLength (cm): " + length.ToString() + "\nFreshness: " + freshness + "/10\nCost(BY): " + cost.ToString() + "\nColor: " + color;
         }
         public virtual string toStringForFile()
         {
             return name + "~" + length.ToString() + "~" + freshness.ToString() + "~" + cost.ToString() + "~" + color;
         }
-        public abstract void Write(string path);
+        //public abstract void Write(string path);
 //        public abstract Bouquet addToBouquet(Bouquet bouquet);
     }
 }

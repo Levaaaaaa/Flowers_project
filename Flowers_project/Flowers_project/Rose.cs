@@ -25,19 +25,20 @@ namespace Flowers_project
         public int getLengthOfPrickles() { return lengthOfPrickles; }
         public override string toStringForConsole()
         {
-            return "Type: " + type + base.toStringForConsole() + "\nLength of Prickles (mm): " + lengthOfPrickles.ToString() + "\n";
+            return "Type: " + type + base.toStringForConsole() + "\nPrickles (mm): " + lengthOfPrickles.ToString() + "\n";
         }
         public override string toStringForFile()
         {
             return type + "~" + base.toStringForFile() + "~" + lengthOfPrickles.ToString();
         }
+        /*
         public override void Write(string path)
         {
             StreamWriter writer = new StreamWriter(path);
             writer.WriteLine(this.toStringForFile());
             writer.Close();
         }
-
+        */
         /*public override Bouquet addToBouquet(Bouquet bouquet)
         {
 

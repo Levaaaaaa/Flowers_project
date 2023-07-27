@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,29 +10,30 @@ namespace Flowers_project
 {
     internal class Bouquet
     {
-        public Bouquet(string path)
+        private List<BaseFlower> bouquet;
+        private List<uint> allID;
+        /*public Bouquet(string path)
         {
+            this.allID = new List<byte>();
             try
             {
-                bouquet = Read(path);
+                Read(path);
             }
             catch (InvalidDataException)
             {
                 Console.WriteLine("\nInvalid data in file!\n");
             }
-        }
-        public Bouquet(BaseFlower[] bouquet) 
-        {
-            this.bouquet = bouquet.ToList();
+        }*/
+        public Bouquet(BaseFlower[] bouquet) : this(bouquet.ToList()) { 
         }
 
         public Bouquet(List<BaseFlower> bouquet)
         {
+            this.allID = new List<uint>();
             this.bouquet = bouquet;
         }
-
-        private List<BaseFlower> bouquet;
         public BaseFlower[] getBouquet() { return bouquet.ToArray(); }
+        public List<uint> getAllID() { return allID; }
         public double getCostOfBouquet()
         {
             double cost = 0;
@@ -46,10 +48,12 @@ namespace Flowers_project
         public void Print()
         {
             Console.WriteLine("\n");
-            foreach (BaseFlower flower in bouquet)
+            ConsoleOutput output = new ConsoleOutput();
+            output.outputBouquetInLine(this);
+            /*foreach (BaseFlower flower in bouquet)
             {
                 Console.Write(flower.toStringForConsole() + "\n");
-            }
+            }*/
         }
 
         public void Write(string path)
@@ -62,10 +66,11 @@ namespace Flowers_project
             writer.Close();
         }
 
-        private static List<BaseFlower> Read(string path)
+        public static Bouquet Read(string path)
         {
             StreamReader reader = new StreamReader(path);
-            List<BaseFlower> bouquet = new List<BaseFlower>();
+            //List<BaseFlower> bouquet = new List<BaseFlower>();
+            Bouquet bouquet = new Bouquet(new List<BaseFlower>());
             string[] all = reader.ReadToEnd().Split('\n');
             reader.Close();
             all = all.SkipLast(1).ToArray();
@@ -126,9 +131,25 @@ namespace Flowers_project
             //return array;
         }
 
-        public void addFlower()
+        private void Add(BaseFlower flower)
         {
-            string[] line = new string[7];
+            uint curID = 0;
+            while (allID.Contains(curID))
+            {
+                curID = Convert.ToUInt32(RandomNumberGenerator.GetInt32(500));
+            }
+            allID.Add(curID);
+            flower.setID(curID);
+            bouquet.Add(flower);
+        }
+        
+        public void addFlowerFromConsole()
+        {
+            bouquet.Add(readFlowerFromConsole());
+        }
+        private static BaseFlower readFlowerFromConsole()
+        {
+            string[] line = new string[BaseFlower.getCountOfParameters() - 1];
             /*Console.WriteLine("Enter the paramenters in the order type-name-length-freshness-cost-color-specialParameter");
             for (int i = 0; i < 7;  i++)
             {
@@ -176,7 +197,7 @@ namespace Flowers_project
             }
             try 
             {
-                this.bouquet.Add(createFlower(line));
+                return createFlower(line);
             }
             catch (InvalidDataException)
             {
@@ -207,12 +228,30 @@ namespace Flowers_project
             }
         }
 
+        public void Remove(uint ID)
+        {
+            if (!allID.Contains(ID))
+            {
+                throw new InvalidDataException(nameof(ID));
+            }
+
+            this.allID.Remove(ID);
+            foreach(BaseFlower flower in this.bouquet)
+            {
+                if (flower.getID() == ID)
+                {
+                    this.bouquet.Remove(flower);
+                    break;
+                }
+            }
+        }
+
         private static string input(string output)
         {
             Console.Write(output);
             return Console.ReadLine();
         }
-
+        
         private static bool isDigit(string str)
         {
             foreach (char c in str)
@@ -243,5 +282,14 @@ namespace Flowers_project
         {)
         }
         */
+        public Bouquet createBouquetByCost(double cost)
+        {
+            if (this.bouquet.Count == 0)
+            {
+                throw new InvalidOperationException();
+            }
+
+            Bouquet result = new Bouquet(new List<BaseFlower>());
+        }
     }
 }
