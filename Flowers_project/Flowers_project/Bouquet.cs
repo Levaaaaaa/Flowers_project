@@ -282,6 +282,7 @@ namespace Flowers_project
         {)
         }
         */
+        /*
         public Bouquet createBouquetByCost(double cost)
         {
             if (this.bouquet.Count == 0)
@@ -290,6 +291,7 @@ namespace Flowers_project
             }
 
             Bouquet result = new Bouquet(new List<BaseFlower>());
-        }
+            BaseFlower[] bouquet = this.bouquet.ToArray();
+        }*/
     }
 }
